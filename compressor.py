@@ -193,6 +193,8 @@ def optimize_pdf_ghostscript(
             f.write(data)
 
         # iLovePDF benzeri yaklaşım: pdfwrite + PDFSETTINGS
+        '''
+        # ToDo: Windows için cmd dizisi ama burada yetmedi
         cmd = [
             gs,
             "-sDEVICE=pdfwrite",
@@ -204,6 +206,35 @@ def optimize_pdf_ghostscript(
             f"-sOutputFile={out_path}",
             in_path
         ]
+        '''
+        cmd = [
+            gs,
+            "-sDEVICE=pdfwrite",
+            "-dCompatibilityLevel=1.4",
+            f"-dPDFSETTINGS=/{preset}",
+
+            "-dNOPAUSE",
+            "-dBATCH",
+            "-dSAFER",
+            "-dDetectDuplicateImages=true",
+            "-dCompressFonts=true",
+            "-dSubsetFonts=true",
+
+            # Downsample (iLovePDF benzeri etki)
+            "-dDownsampleColorImages=true",
+            "-dDownsampleGrayImages=true",
+            "-dDownsampleMonoImages=true",
+            "-dColorImageDownsampleType=/Bicubic",
+            "-dGrayImageDownsampleType=/Bicubic",
+            "-dMonoImageDownsampleType=/Subsample",
+            "-dColorImageResolution=150",
+            "-dGrayImageResolution=150",
+            "-dMonoImageResolution=300",
+
+            f"-sOutputFile={out_path}",
+            in_path,
+        ]   
+
 
         try:
             subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
