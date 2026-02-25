@@ -84,7 +84,7 @@ K/{user_uuid}/{timestamp}/upload_pdf/
 
 ### Repoyu Klonla
 
-git clone https://github.com/RamenChan/Document_Management_System.git
+git clone https://github.com/anilemredurak/Document_Management_System.git
 cd Document_Management_System
 
 ### Python Virtual Environment
